@@ -1,11 +1,11 @@
 from tavily import TavilyClient
-import os
-from dotenv import load_dotenv
+import streamlit as st
 
-load_dotenv()
-
-client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+client = TavilyClient(api_key=st.secrets["TAVILY_API_KEY"])
 
 def search_web(query):
-    response = client.search(query=query, search_depth="advanced")
-    return response["results"]
+    try:
+        response = client.search(query=query, search_depth="basic")
+        return response.get("results", [])
+    except Exception as e:
+        return [{"content": f"Tavily Error: {str(e)}"}]
