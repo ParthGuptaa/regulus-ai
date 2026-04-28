@@ -1,14 +1,15 @@
-import google.generativeai as genai
-import os
-from dotenv import load_dotenv
+from google import genai
+import streamlit as st
 
-load_dotenv()
-
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
-# Use a current, supported model
-model = genai.GenerativeModel("gemini-1.5-flash")
+# Initialize client using Streamlit secrets
+client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
 def generate_response(prompt):
-    response = model.generate_content(prompt)
-    return response.text
+    try:
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=prompt
+        )
+        return response.text
+    except Exception as e:
+        return f"⚠️ Gemini Error: {str(e)}"
