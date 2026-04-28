@@ -1,15 +1,21 @@
 from google import genai
 import streamlit as st
 
-# Initialize client using Streamlit secrets
+# Initialize client
 client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
 def generate_response(prompt):
     try:
         response = client.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-2.0-flash",
             contents=prompt
         )
-        return response.text
+
+        # Safe extraction
+        if hasattr(response, "text") and response.text:
+            return response.text
+        else:
+            return str(response)
+
     except Exception as e:
         return f"⚠️ Gemini Error: {str(e)}"
