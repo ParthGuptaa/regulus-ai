@@ -1,15 +1,16 @@
 def basic_framework_mapping(industry, region):
+    industry = industry.lower()
+    region = region.lower()
+
     mapping = []
 
-    if "finance" in industry.lower():
-        mapping.append("Basel III")
-        mapping.append("SOX")
+    if "finance" in industry:
+        mapping += ["Basel III", "SOX"]
 
-    if "health" in industry.lower():
-        mapping.append("HIPAA")
+    if "health" in industry:
+        mapping += ["HIPAA"]
 
-    if "australia" in region.lower():
-        mapping.append("APRA CPS 234")
-        mapping.append("Privacy Act 1988")
+    if "australia" in region:
+        mapping += ["APRA CPS 234", "Privacy Act 1988"]
 
     return mapping
